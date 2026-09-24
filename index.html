@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>As-Shifa System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div id="loginScreen" class="auth-page">
+  <div class="auth-card">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="app-logo">
+          <svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg>
+        </div>
+        <div>
+          <h1>As-Shifa<br>System</h1>
+          <p>Secure Healthcare<br>Management System</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="shield-logo">
+        <svg viewBox="0 0 80 80"><path d="M40 6L66 18v20c0 18-11 30-26 36C25 68 14 56 14 38V18L40 6z"></path><path d="M40 24v26M27 37h26"></path></svg>
+      </div>
+      <h2>Secure • Reliable • Trusted</h2>
+      <p class="brand-text">Managing patient records securely, protecting your data, and caring for your health.</p>
+      <div class="security-box">
+        <i data-lucide="shield-check"></i>
+        <div><b>Your Security Matters</b><p>All data is encrypted and protected in accordance with healthcare privacy regulations.</p></div>
+      </div>
+    </aside>
+
+    <section class="login-panel">
+      <div class="language"><i data-lucide="globe-2"></i> English</div>
+      <h2>Login</h2>
+      <p class="subtitle">Enter your credentials to access your account</p>
+      <label>Email / Username</label>
+      <div class="input-box"><i data-lucide="user"></i><input id="username" type="text" placeholder="Enter your email or username" onkeydown="if(event.key==='Enter')login()"></div>
+      <div class="label-row"><label>Password</label><a href="#" onclick="alert('Demo Passwords: doctor=1234, admin=admin, patient=1234'); return false;">Forgot Password?</a></div>
+      <div class="input-box"><i data-lucide="lock"></i><input id="password" type="password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')login()"><button type="button" class="eye-btn" onclick="togglePassword()"><i id="eyeIcon" data-lucide="eye-off"></i></button></div>
+      <div class="row"><label class="remember"><input type="checkbox" checked> Remember me</label><a href="#" onclick="alert('Default Accounts:\n• Doctor: ahmed / 1234 (MFA: 123456)\n• Admin: admin / admin (MFA: 123456)\n• Patient: maryam / 1234 (Instant)'); return false;">Credentials Info</a></div>
+      <button class="primary-btn" onclick="login()">Login</button>
+      
+      <div style="margin-top: 16px;">
+        <p style="font-size: 12px; font-weight: 700; color: #1d58b4; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">⚡ One-Click Quick Demo Login:</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button type="button" onclick="quickLogin('ahmed', '1234')" style="background: #f0f7ff; border: 1px solid #c8e1ff; color: #0052cc; padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left;">👨‍⚕️ Dr. Ahmed</button>
+          <button type="button" onclick="quickLogin('admin', 'admin')" style="background: #f0f7ff; border: 1px solid #c8e1ff; color: #0052cc; padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left;">🛡️ Admin User</button>
+          <button type="button" onclick="quickLogin('noura', '1234')" style="background: #f0f7ff; border: 1px solid #c8e1ff; color: #0052cc; padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left;">👩‍⚕️ Noura (Nurse)</button>
+          <button type="button" onclick="quickLogin('maryam', '1234')" style="background: #f0f7ff; border: 1px solid #c8e1ff; color: #0052cc; padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left;">👤 Maryam (Patient)</button>
+        </div>
+      </div>
+
+      <div class="or"><span></span>or<span></span></div>
+      <button class="outline-btn" onclick="quickLogin('maryam', '1234');">Direct Guest Patient Access</button>
+      <p class="policy">By logging in, you agree to our <u>Privacy Policy</u></p>
+      <p id="loginMessage" class="error"></p>
+    </section>
+  </div>
+
+  <div class="notice">
+    <b><i data-lucide="triangle-alert"></i> Security Notices:</b>
+    <ul>
+      <li>After 5 failed login attempts, your account will be locked for 15 minutes.</li>
+      <li>Always log out when finished to protect your session.</li>
+      <li>Do not share your password with anyone.</li>
+    </ul>
+  </div>
+</div>
+
+<div id="mfaScreen" class="auth-page hidden">
+  <div class="auth-card mfa-card">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="app-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div>
+        <div><h1>As-Shifa<br>System</h1><p>Secure Healthcare<br>Management System</p></div>
+      </div>
+      <div class="divider"></div>
+      <div class="shield-logo"><svg viewBox="0 0 80 80"><path d="M40 6L66 18v20c0 18-11 30-26 36C25 68 14 56 14 38V18L40 6z"></path><path d="M40 24v26M27 37h26"></path></svg></div>
+      <h2>Secure • Reliable • Trusted</h2>
+      <p class="brand-text">Managing patient records securely,<br>protecting your data,<br>caring for your health.</p>
+      <div class="security-box"><i data-lucide="shield-check"></i><div><b>Your Security Matters</b><p>All data is encrypted and protected in accordance with healthcare privacy regulations.</p></div></div>
+    </aside>
+    <section class="mfa-panel">
+      <div class="language"><i data-lucide="globe-2"></i> English</div>
+      <h2>Verify Your Identity</h2>
+      <p class="subtitle">Please enter the 6-digit code sent to your email to proceed (Demo Code: <b>123456</b>)</p>
+      <div class="otp-boxes"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
+      <button class="primary-btn" onclick="verifyMFA()">Verify Code</button>
+      <button type="button" onclick="autoFillOTP()" style="margin-top: 10px; width: 100%; background: #f0f7ff; border: 1px dashed #1d58b4; color: #1d58b4; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;">⚡ Auto-Fill Code (123456) & Enter Dashboard</button>
+      <div class="or"><span></span>Resend Code<span></span></div>
+      <p class="resend">Haven’t received the code? <a onclick="resendCode()">Resend Code</a></p>
+      <p class="timer">Code expires in <b id="countdown">00:25</b></p>
+      <p id="mfaMessage" class="error-box hidden"></p>
+    </section>
+  </div>
+</div>
+
+<div id="dashboardScreen" class="dashboard-page hidden">
+  <div id="staffDashboard" class="dashboard-layout hidden">
+    <aside class="side">
+      <div class="side-logo">
+        <div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div>
+        <div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div>
+      </div>
+      <nav class="menu-nav">
+        <button onclick="showDashboard()"><i data-lucide="home"></i><span>Dashboard</span></button>
+        <button onclick="openPatientsList()"><i data-lucide="users"></i><span>Search Patients</span></button>
+        <button onclick="viewRecord()"><i data-lucide="folder-open"></i><span>View Records</span></button>
+        <button onclick="openAppointments()"><i data-lucide="calendar-days"></i><span>Appointments</span></button>
+        <button onclick="openPrescriptions()"><i data-lucide="pill"></i><span>Prescriptions</span></button>
+        <button onclick="openProfile()"><i data-lucide="user"></i><span>Profile</span></button>
+      </nav>
+      <div class="secure-card"><i data-lucide="shield-check"></i><b>Secure Access</b><p>Your access is based on your role. All activities are logged and monitored.</p></div>
+    </aside>
+    <main class="main">
+      <header>
+        <button class="menu-btn" onclick="toggleSidebar('staffDashboard')"><i data-lucide="menu"></i></button>
+        <b>As-Shifa System</b>
+        <div class="user-head"><i data-lucide="bell"></i><div id="staffIcon" class="admin-avatar hidden">A</div><div><b id="staffNameHeader"></b><small id="staffRoleHeader"></small></div></div>
+      </header>
+      <h1 id="staffWelcome">Welcome</h1>
+      <p class="subtitle">Here’s an overview of your activities today.</p>
+      <div class="dash-cards">
+        <div onclick="openPatientsList()"><span class="icon-circle"><i data-lucide="users"></i></span><b>Search Patients</b><p>Search and view assigned patients</p></div>
+        <div onclick="viewRecord()"><span class="icon-circle"><i data-lucide="folder-open"></i></span><b>View Records</b><p>Access medical records based on your role</p></div>
+        <div onclick="openAppointments()"><span class="icon-circle"><i data-lucide="calendar-days"></i></span><b>Appointments</b><p>View and manage appointments</p></div>
+        <div onclick="openPrescriptions()"><span class="icon-circle"><i data-lucide="pill"></i></span><b>Prescriptions</b><p>View prescriptions based on access level</p></div>
+      </div>
+      <div class="summary"><b>Today’s Summary</b><div><i data-lucide="user-check"></i><span>18</span>Patients Seen</div><div><i data-lucide="calendar-check"></i><span>7</span>Appointments</div><div><i data-lucide="clipboard-list"></i><span>5</span>Prescriptions</div></div>
+      <button class="logout" onclick="logout()">Logout</button>
+    </main>
+  </div>
+
+  <div id="patientDashboard" class="dashboard-layout patient-view hidden">
+    <aside class="side">
+      <div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div>
+      <nav class="menu-nav"><button onclick="showDashboard()"><i data-lucide="home"></i><span>Dashboard</span></button><button onclick="viewRecord()"><i data-lucide="folder-open"></i><span>My Medical Records</span></button><button onclick="openAppointments()"><i data-lucide="calendar-days"></i><span>My Appointments</span></button><button onclick="openProfile()"><i data-lucide="user"></i><span>Profile</span></button></nav>
+      <div class="secure-card"><i data-lucide="shield-check"></i><b>Secure Access</b><p>Your access is based on your role. All activities are logged and monitored.</p></div>
+    </aside>
+    <main class="main">
+      <header><button class="menu-btn" onclick="toggleSidebar('patientDashboard')"><i data-lucide="menu"></i></button><b>As-Shifa System</b><div class="user-head"><i data-lucide="bell"></i><div id="patientIcon" class="admin-avatar">P</div><div><b id="patientNameHeader"></b><small>Patient</small></div></div></header>
+      <h1 id="patientWelcome">Welcome</h1><p class="subtitle">Here’s an overview of your health information.</p>
+      <div class="patient-card" onclick="viewRecord()"><span class="icon-circle"><i data-lucide="folder-open"></i></span><h2>My Medical Records</h2><p>View your medical history, lab results, prescriptions and more.</p><span class="arrow">→</span></div>
+      <div class="appointment"><b>Upcoming Appointment</b><p>12 June 2026 — 10:00 AM — Dr. Ahmed Alqarni</p></div>
+      <button class="logout" onclick="logout()">Logout</button>
+    </main>
+  </div>
+</div>
+
+<div id="patientsScreen" class="dashboard-page hidden">
+  <div id="patientsShell" class="version-shell">
+    <aside class="side">
+      <div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div>
+      <nav class="menu-nav"><button onclick="showDashboard()"><i data-lucide="home"></i><span>Dashboard</span></button><button onclick="openPatientsList()"><i data-lucide="users"></i><span>Search Patients</span></button><button onclick="viewRecord()"><i data-lucide="folder-open"></i><span>View Records</span></button><button onclick="openAppointments()"><i data-lucide="calendar-days"></i><span>Appointments</span></button><button onclick="openPrescriptions()"><i data-lucide="pill"></i><span>Prescriptions</span></button><button onclick="openProfile()"><i data-lucide="user"></i><span>Profile</span></button></nav>
+    </aside>
+    <main class="version-main">
+      <div class="top-bar"><button class="back-btn" onclick="showDashboard()"><i data-lucide="arrow-left"></i> Back</button><h2>Search Patients</h2><div class="actions"><button onclick="downloadPatients()"><i data-lucide="download"></i> Download</button></div></div>
+      <div class="search-box"><i data-lucide="search"></i><input id="patientSearchInput" type="text" placeholder="Search by patient name or diagnosis..." oninput="renderPatientsList()"></div>
+      <p id="patientsAccessNote" class="access-note"></p>
+      <div id="patientsList" class="list-grid"></div>
+    </main>
+  </div>
+</div>
+
+<div id="recordScreen" class="dashboard-page hidden">
+  <div id="recordShell" class="version-shell">
+    <aside class="side">
+      <div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div>
+      <nav class="menu-nav"><button onclick="showDashboard()"><i data-lucide="home"></i><span>Dashboard</span></button><button onclick="openPatientsList()"><i data-lucide="users"></i><span>Search Patients</span></button><button onclick="viewRecord()"><i data-lucide="folder-open"></i><span>View Records</span></button><button onclick="openAppointments()"><i data-lucide="calendar-days"></i><span>Appointments</span></button><button onclick="openPrescriptions()"><i data-lucide="pill"></i><span>Prescriptions</span></button><button onclick="openProfile()"><i data-lucide="user"></i><span>Profile</span></button></nav>
+      <div class="secure-card"><i data-lucide="shield-check"></i><b>Secure Access</b><p>Your access is based on your role. All activities are logged and monitored.</p></div>
+    </aside>
+    <main class="version-main">
+      <div class="top-bar"><button class="back-btn" onclick="showDashboard()"><i data-lucide="arrow-left"></i> Back</button><h2>Medical Record</h2><div class="actions"><button onclick="printPage()"><i data-lucide="printer"></i> Print</button><button onclick="downloadRecord()"><i data-lucide="download"></i> Download</button></div></div>
+      <div class="patient-header">
+        <div class="profile"><div id="recordInitials" class="admin-avatar avatar-large">P</div><div><h3 id="recordName"></h3><p>Patient ID: <span id="recordPatientId"></span> • <span id="recordGender"></span> • Age <span id="recordAge"></span></p></div></div>
+        <div class="updated-box"><p>Last updated by <b id="recordUpdatedBy"></b></p><span>Access granted based on your role</span><div class="latest-tag">Current record</div></div>
+      </div>
+      <div class="warning"><i data-lucide="shield-check"></i> Viewing current medical record</div>
+      <div class="section-card"><h4><i data-lucide="clipboard-list"></i> Diagnosis</h4><p id="recordDiagnosis"></p></div>
+      <div class="section-card"><h4><i data-lucide="activity"></i> Treatment</h4><p id="recordTreatment"></p></div>
+      <div class="section-card"><h4><i data-lucide="file-text"></i> Notes</h4><p id="recordNotes"></p></div>
+      <div class="footer-actions"><p><i data-lucide="shield"></i> Records cannot be deleted (security policy)</p><div><button id="goUpdateBtn" class="primary-small" onclick="openUpdateRecord()">Update Medical Record</button><button id="goVersionsBtn" class="outline-small" onclick="openVersionHistory()">View Version History</button></div></div>
+    </main>
+  </div>
+</div>
+
+<div id="updateScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main">
+      <div class="top-bar"><button class="back-btn" onclick="openMedicalRecord(selectedPatientId)"><i data-lucide="arrow-left"></i> Back</button><h2>Update Medical Record</h2><div></div></div>
+      <div class="warning"><i data-lucide="triangle-alert"></i> Changes will be saved as a new version.</div>
+      <div class="form-block"><label>Diagnosis</label><textarea id="editDiagnosis"></textarea></div>
+      <div class="form-block"><label>Treatment</label><textarea id="editTreatment"></textarea></div>
+      <div class="form-block"><label>Notes</label><textarea id="editNotes"></textarea></div>
+      <div class="footer-actions"><p><i data-lucide="shield-check"></i> Update is restricted to authorized roles.</p><div><button class="outline-small" onclick="openMedicalRecord(selectedPatientId)">Cancel</button><button class="primary-small" onclick="saveRecordUpdate()">Save</button></div></div>
+      <p id="updateMessage" class="success hidden"></p>
+    </main>
+  </div>
+</div>
+
+<div id="versionScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main"><div class="top-bar"><button class="back-btn" onclick="openMedicalRecord(selectedPatientId)"><i data-lucide="arrow-left"></i> Back</button><h2>Version History</h2><div></div></div><p class="access-note">Immutable Record Versioning: previous versions cannot be deleted.</p><table><thead><tr><th>Version</th><th>Diagnosis</th><th>Updated By</th><th>Date</th><th>Action</th></tr></thead><tbody id="versionTable"></tbody></table></main>
+  </div>
+</div>
+
+<div id="versionDetailScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main"><div class="top-bar"><button class="back-btn" onclick="openVersionHistory()"><i data-lucide="arrow-left"></i> Back</button><h2>View Version</h2><div class="actions"><button onclick="printPage()"><i data-lucide="printer"></i> Print</button></div></div><div class="patient-header"><div><h3 id="detailVersionTitle"></h3><p>Updated by <b id="detailUpdatedBy"></b></p></div><div class="updated-box"><span id="detailTimestamp"></span><div id="detailTag" class="latest-tag"></div></div></div><div class="section-card"><h4>Diagnosis</h4><p id="detailDiagnosis"></p></div><div class="section-card"><h4>Treatment</h4><p id="detailTreatment"></p></div></main>
+  </div>
+</div>
+
+<div id="appointmentsScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main"><div class="top-bar"><button class="back-btn" onclick="showDashboard()"><i data-lucide="arrow-left"></i> Back</button><h2>Appointments</h2><div class="actions"><button onclick="downloadAppointments()"><i data-lucide="download"></i> Download</button></div></div><table><thead><tr><th>Patient</th><th>Date</th><th>Time</th><th>Type</th><th>Status</th></tr></thead><tbody id="appointmentsTable"></tbody></table></main>
+  </div>
+</div>
+
+<div id="prescriptionsScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main"><div class="top-bar"><button class="back-btn" onclick="showDashboard()"><i data-lucide="arrow-left"></i> Back</button><h2>Prescriptions</h2><div class="actions"><button onclick="downloadPrescriptions()"><i data-lucide="download"></i> Download</button></div></div><table><thead><tr><th>Patient</th><th>Medication</th><th>Dosage</th><th>Status</th></tr></thead><tbody id="prescriptionsTable"></tbody></table></main>
+  </div>
+</div>
+
+<div id="profileScreen" class="dashboard-page hidden">
+  <div class="version-shell">
+    <aside class="side"><div class="side-logo"><div class="mini-logo"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="14"></rect><path d="M32 18v28M18 32h28"></path></svg></div><div class="side-title"><span>As-Shifa System</span><small>Secure Healthcare Management System</small></div></div></aside>
+    <main class="version-main"><div class="top-bar"><button class="back-btn" onclick="showDashboard()"><i data-lucide="arrow-left"></i> Back</button><h2>Profile</h2><div></div></div><div class="profile-card"><div id="profileInitials" class="admin-avatar avatar-xl">U</div><h2 id="profileName"></h2><p>Role: <b id="profileRole"></b></p><p>Username: <b id="profileUsername"></b></p><p>MFA Status: <b id="profileMfa"></b></p></div></main>
+  </div>
+</div>
+
+<div id="logoutModal" class="modal-overlay hidden"><div class="modal-box"><h2>Confirm Logout</h2><p>Are you sure you want to log out?</p><div class="modal-actions"><button class="outline-small" onclick="closeLogoutModal()">Cancel</button><button class="danger-btn" onclick="confirmLogout()">Logout</button></div></div></div>
+
+<script src="auth.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
