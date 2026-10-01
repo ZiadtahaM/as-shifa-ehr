@@ -1,5 +1,13 @@
 # As-Shifa Clinical EHR & Hospital Management System
 
+
+## Visual Preview
+
+<div align="center">
+  <img src="docs/images/preview.png" alt="As-Shifa Clinical Health Records (EHR) Interface Preview" width="100%" style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);" />
+</div>
+
+
 Clinical electronic health record (EHR) and hospital administration application featuring role-based access control (RBAC), multi-factor authentication, and immutable clinical record version history.
 
 ```mermaid
